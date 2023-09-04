@@ -68,22 +68,22 @@ namespace SelectedElementsINFO
             // collector
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             // filter
-            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalEquipment);
-            IList<Element> electrcialeqp = collector.OfClass(typeof(FamilyInstance)).WherePasses(filter).ToElements();
+            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Lines);
+            IList<Element> electrcialeqp = collector.OfClass(typeof(OrdinateDimensionLineStyle)).WherePasses(filter).ToElements();
 
             string print = "Number of electrical equipments = " + electrcialeqp.Count().ToString() + Environment.NewLine;
-            foreach(var ele in electrcialeqp)
-            {
-                var id1= ele.Id;
-                var id2 = ele.Name;
-                var id3 = ele as FamilySymbol;
-                //string id4 = id3.Name.ToString();
-                print += id1 + Environment.NewLine + id2 + Environment.NewLine  + Environment.NewLine;
+            //foreach(var ele in electrcialeqp)
+            //{
+            //    var id1= ele.Id;
+            //    var id2 = ele.Name;
+            //    var id3 = ele as FamilySymbol;
+            //    //string id4 = id3.Name.ToString();
+            //    print += id1 + Environment.NewLine + id2 + Environment.NewLine  + Environment.NewLine;
 
 
 
 
-            }
+            //}
 
             TaskDialog.Show("info for electrical equipments", print);
 
