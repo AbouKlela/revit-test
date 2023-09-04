@@ -23,11 +23,13 @@ namespace revit_test
             Document doc = uidoc.Document;
 
             //let user selecet the object 
-            var obj = uidoc.Selection.PickObject(ObjectType.Element);
-            // from refrence to eleid
-            ElementId elementId = obj.ElementId;
-            //acces the element
-            Element ele = doc.GetElement(elementId);
+            var obj = uidoc.Selection.PickObjects(ObjectType.PointOnElement);
+            foreach ( var element in obj )
+            {
+              var elle = element.ElementId.ToString();
+                TaskDialog.Show("", elle);
+            }
+            
            
 
 
