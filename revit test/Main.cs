@@ -65,27 +65,34 @@ namespace SelectedElementsINFO
 
 
             //=========================================================================================
-            // collector
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            // filter
-            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Lines);
-            IList<Element> electrcialeqp = collector.OfClass(typeof(OrdinateDimensionLineStyle)).WherePasses(filter).ToElements();
+            // filtered selected elements// 
+            IList<Reference> pickedelement = uidoc.Selection.PickObjects(ObjectType.Element);
+            ICollection <ElementId> collector = new List<ElementId>();
+            foreach (var ay7aga in pickedelement)
+            {
+                ElementId ele = doc.GetElement(ay7aga).Id;
+                collector.Add(ele);
 
-            string print = "Number of electrical equipments = " + electrcialeqp.Count().ToString() + Environment.NewLine;
-            //foreach(var ele in electrcialeqp)
-            //{
-            //    var id1= ele.Id;
-            //    var id2 = ele.Name;
-            //    var id3 = ele as FamilySymbol;
-            //    //string id4 = id3.Name.ToString();
-            //    print += id1 + Environment.NewLine + id2 + Environment.NewLine  + Environment.NewLine;
+            }
+            FilteredElementCollector collector2 = new FilteredElementCollector(doc, collector);
+            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalEquipment);
 
+            IList<Element> element = collector2.OfClass(typeof(FamilyInstance)).WherePasses(filter).ToElements();
+            string print = null;
+            foreach (Element elementItem in element)
+            {
 
+                string _1 = elementItem.Name;
+                string _2 = elementItem.Id.ToString();
+                print += _1 + Environment.NewLine + _2 + Environment.NewLine;
 
-
-            //}
+                
+            }
 
             TaskDialog.Show("info for electrical equipments", print);
+            //=========================================================================================
+            //code for making all the coloumns top offset is to a certian level and its matrtial is wood//
+
 
 
 
