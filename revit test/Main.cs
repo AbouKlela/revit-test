@@ -66,13 +66,13 @@ namespace SelectedElementsINFO
 
             //=========================================================================================
             // filtered selected elements// 
+
             IList<Reference> pickedelement = uidoc.Selection.PickObjects(ObjectType.Element);
-            ICollection <ElementId> collector = new List<ElementId>();
+            ICollection<ElementId> collector = new List<ElementId>();
             foreach (var ay7aga in pickedelement)
             {
                 ElementId ele = doc.GetElement(ay7aga).Id;
                 collector.Add(ele);
-
             }
             FilteredElementCollector collector2 = new FilteredElementCollector(doc, collector);
             ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalEquipment);
@@ -86,7 +86,7 @@ namespace SelectedElementsINFO
                 string _2 = elementItem.Id.ToString();
                 print += _1 + Environment.NewLine + _2 + Environment.NewLine;
 
-                
+
             }
 
             TaskDialog.Show("info for electrical equipments", print);
