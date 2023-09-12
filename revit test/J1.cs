@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -18,38 +19,32 @@ using revit_test;
 namespace revit_test
 {
     [Transaction(TransactionMode.Manual)]
-    internal class Main_1 : IExternalCommand
+    internal class J1 : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            try
-            {
-
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-            var selectele = uidoc.Selection.PickObjects(ObjectType.Element).Select(x => doc.GetElement(x)).Select(x=> x.Id).ToList();
-            FilteredElementCollector collector = new FilteredElementCollector(doc,selectele);
-            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalEquipment);
-                  
-            var _1 = collector.OfClass(typeof(FamilyInstance)).WherePasses(filter).ToElements().ToList();
-
-            string _2 = _1.Select(x => x.Name).Aggregate((a, b) => a + Environment.NewLine + b);
-            TaskDialog.Show("ayklam", _2);
-                return Result.Succeeded;
-            }
-            catch (Exception m)
-            {
-                TaskDialog.Show("Error", m.Message);
-                return Result.Failed;
-            }
+            var multicategoryfilter = new ElementMulticategoryFilter(new List<BuiltInCategory> { BuiltInCategory.OST_Conduit ,BuiltInCategory.OST_ConduitFitting});
+            var multiclassfilter = new ElementMulticlassFilter(new List<Type>() { typeof(Conduit) , typeof(FamilyInstance)});
+            var collector = new FilteredElementCollector(doc).WherePasses(multiclassfilter).WherePasses(multicategoryfilter).WhereElementIsNotElementType().ToElements().ToList();
+            var eleid = collector.Select(x=> x.Id).ToList();
+            var print = collector.Select(x=> x.Id.ToString()).ToList();
+            uidoc.Selection.SetElementIds(eleid);
 
 
 
+            
+            kp atb3 = new kp(print);
+            atb3.ShowDialog();
+
+            return Result.Succeeded;
 
 
         }
     }
+
 }

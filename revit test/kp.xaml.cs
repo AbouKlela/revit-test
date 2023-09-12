@@ -16,10 +16,10 @@ using System.Windows.Shapes;
 
 namespace revit_test
 {
-   
-    public partial class UserControl1 : Window
+
+    public partial class kp : Window
     {
-        public UserControl1(IEnumerable collection)
+        public kp(IEnumerable collection)
         {
             InitializeComponent();
             Box.ItemsSource = collection;
