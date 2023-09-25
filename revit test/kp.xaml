@@ -1,14 +1,13 @@
-﻿<Window x:Class="revit_test.kp"
+﻿<Window x:Name="window" x:Class="revit_test.kp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:revit_test"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Title="Linked Elements Info " SizeToContent="WidthAndHeight" Background="#FFBAD6BF" Height="107" Width="241">
     <Grid>
-        <ListBox
-            Name="Box"></ListBox>
-
+        <TextBox x:Name="tb" TextWrapping="Wrap" Margin="0,0,167,54" Background="{Binding Background.Color, ElementName=window}" BorderBrush="{Binding Background.Color, ElementName=window}" IsReadOnly="True"  />
+        <Label Content="M.AbouKlela" FontFamily="CommercialScript BT" HorizontalAlignment="Right" Width="73" Height="26" VerticalAlignment="Bottom" Margin="158,55,0,0"/>
     </Grid>
 </Window>

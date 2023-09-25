@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,11 @@ namespace revit_test
 
     public partial class kp : Window
     {
-        public kp(IEnumerable collection)
+        public kp(ICollection collection)
         {
             InitializeComponent();
-            Box.ItemsSource = collection;
-
+            //Box.ItemsSource = collection;
+            tb.Text = collection.ToString();
         }
     }
 }

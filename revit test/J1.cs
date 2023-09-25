@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using Autodesk.Revit.ApplicationServices;
+﻿using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Autodesk.Revit.UI.Selection;
-using revit_test;
 
 namespace revit_test
 {
@@ -27,23 +19,48 @@ namespace revit_test
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
-
-            var multicategoryfilter = new ElementMulticategoryFilter(new List<BuiltInCategory> { BuiltInCategory.OST_Conduit ,BuiltInCategory.OST_ConduitFitting});
-            var multiclassfilter = new ElementMulticlassFilter(new List<Type>() { typeof(Conduit) , typeof(FamilyInstance)});
-            var collector = new FilteredElementCollector(doc).WherePasses(multiclassfilter).WherePasses(multicategoryfilter).WhereElementIsNotElementType().ToElements().ToList();
-            var eleid = collector.Select(x=> x.Id).ToList();
-            var print = collector.Select(x=> x.Id.ToString()).ToList();
+            /*
+                      _____                    _____                    _____                    _____          
+                     /\    \                  /\    \                  /\    \                  /\    \         
+                    /::\    \                /::\    \                /::\    \                /::\____\        
+                    \:::\    \              /::::\    \              /::::\    \              /:::/    /        
+                     \:::\    \            /::::::\    \            /::::::\    \            /:::/    /         
+                      \:::\    \          /:::/\:::\    \          /:::/\:::\    \          /:::/    /          
+                       \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \        /:::/____/           
+                       /::::\    \      /::::\   \:::\    \       \:::\   \:::\    \      /::::\    \           
+                      /::::::\    \    /::::::\   \:::\    \    ___\:::\   \:::\    \    /::::::\    \   _____  
+                     /:::/\:::\    \  /:::/\:::\   \:::\____\  /\   \:::\   \:::\    \  /:::/\:::\    \ /\    \ 
+                    /:::/  \:::\____\/:::/  \:::\   \:::|    |/::\   \:::\   \:::\____\/:::/  \:::\    /::\____\
+                   /:::/    \::/    /\::/   |::::\  /:::|____|\:::\   \:::\   \::/    /\::/    \:::\  /:::/    /
+                  /:::/    / \/____/  \/____|:::::\/:::/    /  \:::\   \:::\   \/____/  \/____/ \:::\/:::/    / 
+                 /:::/    /                 |:::::::::/    /    \:::\   \:::\    \               \::::::/    /  
+                /:::/    /                  |::|\::::/    /      \:::\   \:::\____\               \::::/    /   
+                \::/    /                   |::| \::/____/        \:::\  /:::/    /               /:::/    /    
+                 \/____/                    |::|  ~|               \:::\/:::/    /               /:::/    /     
+                                            |::|   |                \::::::/    /               /:::/    /      
+                                            \::|   |                 \::::/    /               /:::/    /       
+                                             \:|   |                  \::/    /                \::/    /        
+                                              \|___|                   \/____/                  \/____/         
+                                                                                                
+             */
+            // asssign category filter
+            var multicategoryfilter = new ElementMulticategoryFilter(new List<BuiltInCategory> { BuiltInCategory.OST_Lines});
+            // assign class filter
+            //var multiclassfilter = new ElementMulticlassFilter(new List<Type>() { typeof(DetailLine) });
+            //logical and filter
+            //var logicalandfilter = new LogicalAndFilter(multiclassfilter, multicategoryfilter);
+            // collect the elements 
+            var collector = new FilteredElementCollector(doc).WherePasses(multicategoryfilter).WhereElementIsNotElementType().ToElements().ToList();
+            // get elements id 
+            var eleid = collector.Select(x => x.Id).ToList();
+            //select the elements in the doc 
             uidoc.Selection.SetElementIds(eleid);
-
-
-
-            
-            kp atb3 = new kp(print);
-            atb3.ShowDialog();
+            //print
+            var print = collector.Select(x => x.Id.ToString()).ToList();
+            //kp atb3 = new kp(print);
+            //atb3.ShowDialog();
 
             return Result.Succeeded;
-
-
         }
     }
 
