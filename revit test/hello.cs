@@ -7,12 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.UI.Selection;
-using System.Collections.ObjectModel;
 using revit_test.Extensions;
 using System.IO.Packaging;
 using revit_test.Extensions.Selection;
 using static revit_test.Extensions.Selection.SelectionExtentions;
-using System.Windows.Media.Media3D;
 
 namespace revit_test
 {
@@ -36,12 +34,11 @@ namespace revit_test
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
-            var ele = uidoc.Selection.PickObjects(ObjectType.Element,
-                SelectionFilterFactory.CreateElementSelectionFilter(x=> x.Category.Id == new ElementId(BuiltInCategory.OST_ElectricalFixtures)));
+            
             var ele = uidoc.PickElements(x=> x is FamilyInstance , PickElementsOptionFactory.CreateCurrentDocumentOption());
 
 
-            var count = ele.Select(x => doc.GetElement(x.ElementId).Id).ToList().Distinct();
+            var count = ele.Select(x => doc.GetElement(x.Id).Id).ToList().Distinct();
             var print = string.Join(", ", count);
             TaskDialog.Show("zby", print);
 
