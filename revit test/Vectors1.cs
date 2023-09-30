@@ -40,9 +40,9 @@ namespace revit_test
                 tr.Start();
 
                 ElementTransformUtils.CopyElement(doc, element.First().Id, TotalVector);
-                var line = point.VisualizeAsLine(doc);
-                var line2 = ele.VisualizeAsLine(doc);
-                var line3 = TotalVector.VisualizeAsLine(doc);
+                point.VisualizeAsLine(doc);
+                ele.VisualizeAsLine(doc);
+                TotalVector.VisualizeAsLine(doc);
 
 
                 tr.Commit();
