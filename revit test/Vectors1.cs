@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using static revit_test.Extensions.Selection.SelectionExtentions;
 using static revit_test.Extensions.Print.Print;
 using static revit_test.Extensions.Vectors.Vectors;
+using revit_test.Extensions.Vectors;
 
 namespace revit_test
 {
@@ -26,23 +27,21 @@ namespace revit_test
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
-            var point = new XYZ(4.544696601, 11.973907868, 0.000000000);
-            var element = uidoc.PickElements(x => x is FamilyInstance, PickElementsOptionFactory.CreateCurrentDocumentOption());
-            var elePoint = element.First().Location as LocationPoint;
-            var ele = elePoint.Point;
-            var TotalVector = ele + point;
-
+            var firstvector = new XYZ(2, 0.5, 0);
+            var secondvector = new XYZ(1,2,0); 
+            var basisZ = XYZ.BasisZ;
 
 
 
             using (var tr = new Transaction(doc, "zby"))
             {
                 tr.Start();
+                firstvector.AsCurve().Visualize(doc);
+                XYZ.BasisZ.AsCurve().Visualize(doc);
+                secondvector.AsCurve().Visualize(doc);
+                
 
-                ElementTransformUtils.CopyElement(doc, element.First().Id, TotalVector);
-                point.VisualizeAsLine(doc);
-                ele.VisualizeAsLine(doc);
-                TotalVector.VisualizeAsLine(doc);
+
 
 
                 tr.Commit();

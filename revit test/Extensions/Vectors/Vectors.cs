@@ -30,18 +30,39 @@ namespace revit_test.Extensions.Vectors
 
         }
         /// <summary>
-        /// Visualize Vector As a Line from Centre Point Of The project
+        /// To Vizualize Point XYZ IN doc
         /// </summary>
-        /// <param Vector You Wanna Visualize ="Vector"></param>
-        /// <param Current Document="doc"></param>
-        ///                                             Call                                                    
-        ///                                  Vector.VisualizeAsLine(doc)                                        
-        public static void VisualizeAsLine(this XYZ Vector, Document doc)
+        /// <param POINT TO VISUALIZE="point"></param>
+        /// <param DOC TO VISUALIZE IN ="doc"></param>
+        public static void Visualize(this XYZ point , Document doc)
         {
-            var line = Line.CreateBound(XYZ.Zero, Vector);
-            doc.CreateDirectShape(new List<GeometryObject>() { line });
-
-
+            doc.CreateDirectShape(new List<GeometryObject>() { Point.Create(point) });
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="origin"></param>
+        /// <param name="legnth"></param>
+        /// <returns></returns>
+        public static Curve AsCurve(this XYZ vector , XYZ origin = null , double? legnth = null) {
+            origin??=XYZ.Zero;
+            legnth ??= vector.GetLength();
+            return Line.CreateBound(origin, origin.MoveAlongVector(vector.Normalize(), legnth.GetValueOrDefault()));
+        
+        }
+        public static void Visualize(this Curve curve , Document document)
+        {
+            document.CreateDirectShape(new List<GeometryObject> { curve });
+        }
+        public static XYZ MoveAlongVector(this XYZ pointToMove, XYZ vector, double distance) => pointToMove.Add(vector * distance);
+        public static XYZ MoveAlongVector(this XYZ pointToMove, XYZ vector) => pointToMove.Add(vector);
+        public static XYZ ToNormalizedVector(this Curve curve)
+        {
+            return (curve.GetEndPoint(1)- curve.GetEndPoint(0).Normalize());
+        }
+
+      
     }
 }
+
