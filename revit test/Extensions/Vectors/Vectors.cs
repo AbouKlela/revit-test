@@ -39,7 +39,7 @@ namespace revit_test.Extensions.Vectors
             doc.CreateDirectShape(new List<GeometryObject>() { Point.Create(point) });
         }
         /// <summary>
-        /// 
+        /// Vector to Curve
         /// </summary>
         /// <param name="vector"></param>
         /// <param name="origin"></param>
@@ -51,17 +51,58 @@ namespace revit_test.Extensions.Vectors
             return Line.CreateBound(origin, origin.MoveAlongVector(vector.Normalize(), legnth.GetValueOrDefault()));
         
         }
+        /// <summary>
+        /// To Visualize Curve
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <param name="document"></param>
         public static void Visualize(this Curve curve , Document document)
         {
             document.CreateDirectShape(new List<GeometryObject> { curve });
         }
+        /// <summary>
+        /// Move Point Along Vector
+        /// </summary>
+        /// <param name="pointToMove"></param>
+        /// <param name="vector"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
         public static XYZ MoveAlongVector(this XYZ pointToMove, XYZ vector, double distance) => pointToMove.Add(vector * distance);
+        /// <summary>
+        /// Move Point Along Vector by distance
+        /// </summary>
+        /// <param name="pointToMove"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static XYZ MoveAlongVector(this XYZ pointToMove, XYZ vector) => pointToMove.Add(vector);
+
+        /// <summary>
+        /// To Points To Vector between Them
+        /// </summary>
+        /// <param name="fromPoint"></param>
+        /// <param name="toPoint"></param>
+        /// <returns></returns>
+        public static XYZ ToVector(this XYZ fromPoint , XYZ toPoint) => toPoint-fromPoint;
+        /// <summary>
+        /// To Convert Line to Vector at the same Direction
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
         public static XYZ ToNormalizedVector(this Curve curve)
         {
             return (curve.GetEndPoint(1)- curve.GetEndPoint(0).Normalize());
         }
-
+        /// <summary>
+        ///  Measure the Distance Between two Points Along a Vector
+        /// </summary>
+        /// <param name="fromPoint"></param>
+        /// <param name="toPoint"></param>
+        /// <param name="vectorToMeasureBy"></param>
+        /// <returns></returns>
+        public static double DistanceAlongVector (this XYZ fromPoint , XYZ toPoint , XYZ vectorToMeasureBy)
+        {
+            return Math.Abs(fromPoint.ToVector(toPoint).DotProduct(vectorToMeasureBy));
+        }
       
     }
 }
