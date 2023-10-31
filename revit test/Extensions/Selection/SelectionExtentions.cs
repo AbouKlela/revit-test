@@ -16,6 +16,10 @@ namespace revit_test.Extensions.Selection
     public static class SelectionExtentions
     {
 
+        public static List<Element> GetSelectedElement(this UIDocument uIDocument)
+        {
+            return uIDocument.Selection.GetElementIds().Select(x=> uIDocument.Document.GetElement(x)).ToList();
+        }
         public static List<Element> PickElements(this UIDocument uIDocument, Func<Element, bool> validateElement, IPickElementsOption pickElementsOption)
         {
             return pickElementsOption.PickElements(uIDocument, validateElement);

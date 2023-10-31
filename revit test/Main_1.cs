@@ -27,8 +27,8 @@ namespace revit_test
 
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
-            Application app = uiapp.Application;
-            Document doc = uidoc.Document;
+                Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
+                Document doc = uidoc.Document;
 
             var selectele = uidoc.Selection.PickObjects(ObjectType.Element).Select(x => doc.GetElement(x)).Select(x=> x.Id).ToList();
             FilteredElementCollector collector = new FilteredElementCollector(doc,selectele);

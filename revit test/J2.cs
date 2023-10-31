@@ -24,7 +24,7 @@ namespace revit_test
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
-            Application app = uiapp.Application;
+            Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
             using (var tr = new Transaction(doc, "ElementSelectionFilter"))

@@ -77,7 +77,7 @@ namespace revit_test.Extensions.Vectors
         public static XYZ MoveAlongVector(this XYZ pointToMove, XYZ vector) => pointToMove.Add(vector);
 
         /// <summary>
-        /// To Points To Vector between Them
+        /// Two Points To Vector between Them
         /// </summary>
         /// <param name="fromPoint"></param>
         /// <param name="toPoint"></param>
