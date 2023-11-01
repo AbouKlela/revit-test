@@ -35,9 +35,8 @@ namespace revit_test
                 +-+-+-+-+-+-+-+-+-+ */
 
             List<Element> ElementList = uidoc.Selection.GetElementIds().Select(x => doc.GetElement(x)).ToList();
-            var options = new Options() { ComputeReferences = false, DetailLevel = ViewDetailLevel.Fine };
-
-
+            var options = new Options() { ComputeReferences = true, DetailLevel = ViewDetailLevel.Fine };
+            Solid union = null;
 
 
 
@@ -51,21 +50,40 @@ namespace revit_test
                     {
                         List<Solid> geo2 = geo1.Select(geo1 => geo1 as Solid).Where(x => x.Volume > 0).ToList();
                         td.z($"Number Of Solids =  {geo2.Count().ToString()}" + Environment.NewLine + "Geometry Element");
+
                         foreach (Solid x in geo2)
                         {
-                            x.Visualize(doc);
+                            if (union == null)
+                            {
+                                union = x;
+                            }
+                            else
+                            {
+                                union = BooleanOperationsUtils.ExecuteBooleanOperation(union, x, BooleanOperationsType.Union);
+
+                            }
+                            union.Visualize(doc);
                         }
                     }
                     else
                     {
                         List<Solid> geo3 = element.get_Geometry(options).
-                            Select(g => g as GeometryInstance).
+                            Where(g => g is GeometryInstance).Select(z => z as GeometryInstance).
                             SelectMany(x => x.GetInstanceGeometry()).
                             Select(y => y as Solid).Where(x => x.Volume > 0).ToList();
                         td.z($"Number Of Solids =  {geo3.Count().ToString()}" + Environment.NewLine + "Geometry Instance");
                         foreach (Solid x in geo3)
                         {
-                            x.Visualize(doc);
+                            if (union == null)
+                            {
+                                union = x;
+                            }
+                            else
+                            {
+                                union = BooleanOperationsUtils.ExecuteBooleanOperation(union, x, BooleanOperationsType.Union);
+
+                            }
+                            union.Visualize(doc);
                         }
                     }
 

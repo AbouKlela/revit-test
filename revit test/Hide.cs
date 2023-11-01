@@ -31,16 +31,16 @@ namespace revit_test
             Document doc = uidoc.Document;
 
             Category roomseparationline = Category.GetCategory(doc, BuiltInCategory.OST_RoomSeparationLines);
-
-
-
-
+            Category genericmodel = Category.GetCategory(doc, BuiltInCategory.OST_GenericModel);
+            Category SITE = Category.GetCategory(doc, BuiltInCategory.OST_Site);
 
             using (Transaction transaction = new Transaction(doc, "Turn Off Visibility of Room Separation Line"))
             {
                 transaction.Start();
-
+                
                 doc.ActiveView.SetCategoryHidden(roomseparationline.Id, true);
+                doc.ActiveView.SetCategoryHidden(genericmodel.Id, true);
+                doc.ActiveView.SetCategoryHidden(SITE.Id, true);
 
                 transaction.Commit();
             }
@@ -49,16 +49,8 @@ namespace revit_test
 
             return Result.Succeeded;
 
-
-
-
-
-
         }
 
-
     }
-
-
 
 }
