@@ -18,7 +18,7 @@ namespace revit_test
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    internal partial class transform1 : IExternalCommand
+    internal partial class Hide : IExternalCommand
 
     {
 
@@ -30,10 +30,28 @@ namespace revit_test
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
+            Category roomseparationline = Category.GetCategory(doc, BuiltInCategory.OST_RoomSeparationLines);
 
 
+
+
+
+            using (Transaction transaction = new Transaction(doc, "Turn Off Visibility of Room Separation Line"))
+            {
+                transaction.Start();
+
+                doc.ActiveView.SetCategoryHidden(roomseparationline.Id, true);
+
+                transaction.Commit();
+            }
+
+            uidoc.RefreshActiveView();
 
             return Result.Succeeded;
+
+
+
+
 
 
         }

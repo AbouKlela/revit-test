@@ -30,8 +30,11 @@ namespace revit_test
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
+            /*  +-+-+-+-+-+-+-+-+-+
+                |V|A|R|I|A|B|L|E|S|
+                +-+-+-+-+-+-+-+-+-+ */
+
             List<Element> ElementList = uidoc.Selection.GetElementIds().Select(x => doc.GetElement(x)).ToList();
-            //List<Element> ElementList = uidoc.PickElements(x => x is FamilyInstance, PickElementsOptionFactory.bothDocumentOption());
             var options = new Options() { ComputeReferences = false, DetailLevel = ViewDetailLevel.Fine };
 
 
@@ -47,7 +50,7 @@ namespace revit_test
                     if (geo1.Count() != 0)
                     {
                         List<Solid> geo2 = geo1.Select(geo1 => geo1 as Solid).Where(x => x.Volume > 0).ToList();
-                        //td.z(geo2.Count().ToString() + Environment.NewLine + "Geometry Element");
+                        td.z($"Number Of Solids =  {geo2.Count().ToString()}" + Environment.NewLine + "Geometry Element");
                         foreach (Solid x in geo2)
                         {
                             x.Visualize(doc);
@@ -59,7 +62,7 @@ namespace revit_test
                             Select(g => g as GeometryInstance).
                             SelectMany(x => x.GetInstanceGeometry()).
                             Select(y => y as Solid).Where(x => x.Volume > 0).ToList();
-                        //td.z(geo3.Count().ToString() + Environment.NewLine + "Geometry Instance");
+                        td.z($"Number Of Solids =  {geo3.Count().ToString()}" + Environment.NewLine + "Geometry Instance");
                         foreach (Solid x in geo3)
                         {
                             x.Visualize(doc);
@@ -67,11 +70,6 @@ namespace revit_test
                     }
 
                 }
-
-
-
-
-
                 tr.Commit();
             }
 

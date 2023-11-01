@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="transform1.cs" />
+    <Compile Include="Hide.cs" />
     <Compile Include="Extensions\Geometry\Geometry.cs" />
     <Compile Include="Extensions\Selection\SelectionExtentions.cs" />
     <Compile Include="Extensions\Vectors\Vectors.cs" />
